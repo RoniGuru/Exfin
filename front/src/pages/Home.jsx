@@ -11,18 +11,19 @@ function Home() {
   const [isAscending, setIsAscending] = useState(true);
   const [searchExpenses, setSearchExpenses] = useState([]);
 
-  const [textFilter, setTextFilter] = useState('');
+  const [searchText, SetSearchText] = useState('');
 
   useEffect(() => {
     getExpenses();
   }, []);
 
-  const getExpenses = () => {
+  const getExpenses = async () => {
     api
       .get('/api/expenses/')
       .then((res) => res.data)
       .then((data) => {
-        setExpenses(data), setSearchExpenses(expenses);
+        setExpenses(data), setSearchExpenses(data);
+        SetSearchText('');
       })
       .catch((err) => alert(err));
   };
@@ -62,6 +63,7 @@ function Home() {
   };
 
   const Search = (text) => {
+    console.log('search', text);
     const terms = [...expenses];
 
     setSearchExpenses(
@@ -69,7 +71,6 @@ function Home() {
         expense.title.toLowerCase().includes(text.toLowerCase())
       )
     );
-    setTextFilter(text);
   };
 
   return (
@@ -105,13 +106,18 @@ function Home() {
           <input
             className="Search"
             type="text"
-            onChange={(e) => Search(e.target.value)}
+            value={searchText}
+            onChange={(e) => {
+              Search(e.target.value), SetSearchText(e.target.value);
+            }}
           />
-          <button onClick={() => sortExpenses()}>sort</button>
+          <button onClick={() => sortExpenses()}>
+            sort {isAscending ? 'ascending' : 'descending'}
+          </button>
         </div>
 
         <div className="expenses">
-          {searchExpenses.length > 0
+          {searchText.length > 0
             ? searchExpenses.map((expense) => (
                 <Expense
                   expense={expense}
