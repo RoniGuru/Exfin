@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import Expense from '../components/Expense';
 import '../styles/Home.css';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [expenses, setExpenses] = useState([]);
@@ -12,6 +13,8 @@ function Home() {
   const [searchExpenses, setSearchExpenses] = useState([]);
 
   const [searchText, SetSearchText] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getExpenses();
@@ -75,31 +78,34 @@ function Home() {
 
   return (
     <div className="container">
-      <form onSubmit={createExpense}>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          required
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <br />
-        <label htmlFor="cost">Cost:</label>
+      <div className="left">
+        <button onClick={() => navigate('/logout')}>logout</button>
+        <form onSubmit={createExpense}>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+          />
+          <br />
+          <label htmlFor="cost">Cost:</label>
 
-        <input
-          type="number"
-          id="cost"
-          required
-          name="cost"
-          onChange={(e) => setCost(e.target.value)}
-          value={cost}
-        />
+          <input
+            type="number"
+            id="cost"
+            required
+            name="cost"
+            onChange={(e) => setCost(e.target.value)}
+            value={cost}
+          />
 
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
       <div className="expenses-container">
         <div>
           <h2>Expenses</h2>
