@@ -9,6 +9,7 @@ function Home() {
   const [expenses, setExpenses] = useState([]);
   const [cost, setCost] = useState(0);
   const [title, setTitle] = useState('');
+
   const [isAscending, setIsAscending] = useState(true);
   const [searchExpenses, setSearchExpenses] = useState([]);
 
@@ -57,11 +58,14 @@ function Home() {
   };
 
   const sortExpenses = () => {
-    const sourceExpenses = searchExpenses ? [...searchExpenses] : [...expenses];
+    const sourceExpenses =
+      searchText.length > 0 ? [...searchExpenses] : [...expenses];
     const sortedExpenses = sourceExpenses.sort((a, b) =>
       isAscending ? a.cost - b.cost : b.cost - a.cost
     );
-    setSearchExpenses(sortedExpenses);
+    searchText.length > 0
+      ? setSearchExpenses(sortedExpenses)
+      : setExpenses(sortedExpenses);
     setIsAscending(!isAscending);
   };
 
