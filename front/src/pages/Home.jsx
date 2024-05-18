@@ -9,6 +9,7 @@ function Home() {
   const [expenses, setExpenses] = useState([]);
   const [cost, setCost] = useState(0);
   const [title, setTitle] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 
   const [isAscending, setIsAscending] = useState(true);
   const [searchExpenses, setSearchExpenses] = useState([]);
@@ -46,7 +47,7 @@ function Home() {
   const createExpense = (e) => {
     e.preventDefault();
     api
-      .post('/api/expenses/', { title, cost })
+      .post('/api/expenses/', { title, cost, date })
       .then((res) => {
         if (res.status === 201) alert('expense created');
         else alert('failed to make expense');
@@ -159,6 +160,12 @@ function Home() {
             value={cost}
           />
 
+          <br />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
           <br />
           <input type="submit" value="Submit" />
         </form>

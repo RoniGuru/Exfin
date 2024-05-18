@@ -5,10 +5,9 @@ import { useState } from 'react';
 function Expense({ expense, onDelete, onEdit }) {
   const [title, setTitle] = useState(expense.title);
   const [cost, setCost] = useState(expense.cost);
+  const [date, setDate] = useState(expense.date);
 
-  const formattedDate = new Date(expense.created_at).toLocaleDateString(
-    'en-UK'
-  );
+  const formattedDate = new Date(expense.date).toLocaleDateString('en-UK');
   return (
     <div className="expense-container">
       <div>
@@ -26,6 +25,12 @@ function Expense({ expense, onDelete, onEdit }) {
             type="number"
             onChange={(e) => setCost(e.target.value)}
           />
+          <input
+            className="expenseInput"
+            value={new Date(date).toISOString().split('T')[0]}
+            type="date"
+            onChange={(e) => setDate(e.target.value)}
+          />
         </div>
       </div>
 
@@ -35,13 +40,17 @@ function Expense({ expense, onDelete, onEdit }) {
           Delete
         </button>
         <button
-          onClick={() => onEdit(expense.id, { title: title, cost: cost })}
+          onClick={() =>
+            onEdit(expense.id, { title: title, cost: cost, date: date })
+          }
         >
           Update
         </button>
         <button
           onClick={() => {
-            setCost(expense.cost), setTitle(expense.title);
+            setCost(expense.cost),
+              setTitle(expense.title),
+              setDate(expense.date);
           }}
         >
           reset
