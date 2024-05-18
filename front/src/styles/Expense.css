@@ -5,6 +5,8 @@
   border-radius: 5px;
   width: 60%;
   margin: auto;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .delete-button {
@@ -19,4 +21,8 @@
 
 .delete-button:hover {
   background-color: #d32f2f; /* Darker red */
+}
+
+.expenseInput {
+  margin-top: 5px;
 }

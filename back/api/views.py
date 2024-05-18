@@ -24,7 +24,30 @@ class ExpenseListCreate(generics.ListCreateAPIView):
             serializer.save(author=self.request.user)
         else:
             print(serializer.errors) 
+    
+    
+    
+class ExpenseUpdate(generics.UpdateAPIView):
+  
+    serializer_class = ExpenseSerializers
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user #gives user object
+        return Expense.objects.filter(author=user) # filter all Expenses by user
+    
+    def perform_update(self, serializer):
+        try:
+            instance = serializer.save()
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+       
+    
+
+
+    
+
+    
 
 class ExpenseDelete(generics.DestroyAPIView):
     
@@ -37,7 +60,6 @@ class ExpenseDelete(generics.DestroyAPIView):
         return Expense.objects.filter(author=user) # filter all Expenses by user
     
     
-
 
 
 

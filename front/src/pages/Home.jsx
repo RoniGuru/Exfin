@@ -46,7 +46,7 @@ function Home() {
   const createExpense = (e) => {
     e.preventDefault();
     api
-      .post('/api/expenses/', { cost, title })
+      .post('/api/expenses/', { title, cost })
       .then((res) => {
         if (res.status === 201) alert('expense created');
         else alert('failed to make expense');
@@ -57,6 +57,23 @@ function Home() {
       });
   };
 
+  const editExpense = (id, data) => {
+    api
+      .put(`/api/expenses/update/${id}/`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          // Status code for successful update is 200
+          alert('Expense updated');
+        } else {
+          alert('Failed to update expense');
+        }
+        getExpenses();
+      })
+      .catch((err) => {
+        alert('An error occurred: ' + err.response.data.detail);
+        console.log('Error:', err);
+      });
+  };
   const sortExpenses = () => {
     const sourceExpenses =
       searchText.length > 0 ? [...searchExpenses] : [...expenses];
@@ -82,6 +99,42 @@ function Home() {
 
   return (
     <div className="container">
+      <div className="expenses-container">
+        <div>
+          <h2>Expenses</h2>
+          <input
+            className="Search"
+            type="text"
+            value={searchText}
+            onChange={(e) => {
+              Search(e.target.value), SetSearchText(e.target.value);
+            }}
+          />
+          <button onClick={() => sortExpenses()}>
+            sort {isAscending ? 'ascending' : 'descending'}
+          </button>
+        </div>
+
+        <div className="expenses">
+          {searchText.length > 0
+            ? searchExpenses.map((expense) => (
+                <Expense
+                  expense={expense}
+                  onDelete={deleteExpense}
+                  key={expense.id}
+                  onEdit={editExpense}
+                />
+              ))
+            : expenses.map((expense) => (
+                <Expense
+                  expense={expense}
+                  onDelete={deleteExpense}
+                  key={expense.id}
+                  onEdit={editExpense}
+                />
+              ))}
+        </div>
+      </div>
       <div className="left">
         <button onClick={() => navigate('/logout')}>logout</button>
         <form onSubmit={createExpense}>
@@ -109,40 +162,6 @@ function Home() {
           <br />
           <input type="submit" value="Submit" />
         </form>
-      </div>
-      <div className="expenses-container">
-        <div>
-          <h2>Expenses</h2>
-          <input
-            className="Search"
-            type="text"
-            value={searchText}
-            onChange={(e) => {
-              Search(e.target.value), SetSearchText(e.target.value);
-            }}
-          />
-          <button onClick={() => sortExpenses()}>
-            sort {isAscending ? 'ascending' : 'descending'}
-          </button>
-        </div>
-
-        <div className="expenses">
-          {searchText.length > 0
-            ? searchExpenses.map((expense) => (
-                <Expense
-                  expense={expense}
-                  onDelete={deleteExpense}
-                  key={expense.id}
-                />
-              ))
-            : expenses.map((expense) => (
-                <Expense
-                  expense={expense}
-                  onDelete={deleteExpense}
-                  key={expense.id}
-                />
-              ))}
-        </div>
       </div>
     </div>
   );
