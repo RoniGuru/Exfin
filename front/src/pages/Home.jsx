@@ -5,6 +5,8 @@ import Expense from '../components/Expense';
 import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
 
+import DownloadCSVButton from '../components/DownloadCSVButton';
+
 function Home() {
   const [expenses, setExpenses] = useState([]);
   const [cost, setCost] = useState(0);
@@ -138,6 +140,7 @@ function Home() {
       </div>
       <div className="left">
         <button onClick={() => navigate('/logout')}>logout</button>
+        <DownloadCSVButton expenses={expenses} />
         <form onSubmit={createExpense}>
           <label htmlFor="title">Title:</label>
           <input

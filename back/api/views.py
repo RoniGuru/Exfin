@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import generics 
+from rest_framework import generics
+from rest_framework.views import APIView
 from .serializers import UserSerializer, ExpenseSerializers
 from rest_framework.permissions import IsAuthenticated, AllowAny 
 from .models import Expense
-
-
+import csv
+from django.http import HttpResponse
 # Create your views here.
+
+
+
+
 
 class ExpenseListCreate(generics.ListCreateAPIView):
     serializer_class = ExpenseSerializers
@@ -37,11 +42,9 @@ class ExpenseUpdate(generics.UpdateAPIView):
         return Expense.objects.filter(author=user) # filter all Expenses by user
     
     def perform_update(self, serializer):
-        try:
-            instance = serializer.save()
-        except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
        
+        instance = serializer.save()
+        
     
 
 
