@@ -70,21 +70,81 @@ input[type='number'] {
 }
 
 .container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
   justify-content: space-between;
+
   height: 80vh;
 }
 
 .expenses-container {
-  width: 50%;
+  height: 80%;
+  width: 100%;
   border: black 2px solid;
+  margin-left: 5%;
+  grid-column: 1;
 }
 .expenses {
   overflow: auto;
-  max-height: 80%;
+  max-height: 70%;
+  margin: auto;
+}
+
+.expenses-title {
+  margin: auto;
+  width: 60%;
+
+  margin-bottom: 3%;
+}
+
+.expenses-title h2 {
+  text-align: center;
+}
+.search-bar {
+  display: flex;
+  justify-content: center;
 }
 
 .left {
-  width: 25%;
+  align-content: center;
+
+  width: 60%;
+  grid-column: 2;
   margin: auto;
+  margin-bottom: 40vh;
+}
+
+.userButtons {
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+  margin: auto;
+  margin-bottom: 5%;
+}
+
+.userButtons button {
+  padding: 15px;
+}
+@media only screen and (max-width: 1200px) {
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0;
+  }
+  .left {
+    order: 1;
+    height: 40vh;
+    margin-bottom: none;
+  }
+  .expenses-container {
+    margin-top: none;
+    order: 2;
+    height: 80vh;
+  }
+  .userButtons {
+    width: 80%;
+  }
 }

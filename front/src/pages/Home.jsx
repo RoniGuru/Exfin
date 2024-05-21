@@ -100,78 +100,99 @@ function Home() {
     );
   };
 
+  const deleteUser = (id) => {
+    api
+      .delete(`/api/user/delete/${id}/`)
+      .then((res) => {
+        if (res.status === 204) alert('user deleted');
+        else alert('failed to delete expense');
+        navigate('/logout');
+      })
+      .catch((error) => alert(error));
+  };
   return (
-    <div className="container">
-      <div className="expenses-container">
-        <div>
-          <h2>Expenses</h2>
-          <input
-            className="Search"
-            type="text"
-            value={searchText}
-            onChange={(e) => {
-              Search(e.target.value), SetSearchText(e.target.value);
-            }}
-          />
-          <button onClick={() => sortExpenses()}>
-            sort {isAscending ? 'ascending' : 'descending'}
-          </button>
-        </div>
+    <div>
+      <div className="userButtons">
+        <button onClick={() => deleteUser(expenses[0].author)}>
+          delete Account
+        </button>
 
-        <div className="expenses">
-          {searchText.length > 0
-            ? searchExpenses.map((expense) => (
-                <Expense
-                  expense={expense}
-                  onDelete={deleteExpense}
-                  key={expense.id}
-                  onEdit={editExpense}
-                />
-              ))
-            : expenses.map((expense) => (
-                <Expense
-                  expense={expense}
-                  onDelete={deleteExpense}
-                  key={expense.id}
-                  onEdit={editExpense}
-                />
-              ))}
-        </div>
-      </div>
-      <div className="left">
         <button onClick={() => navigate('/logout')}>logout</button>
+
         <DownloadCSVButton expenses={expenses} />
-        <form onSubmit={createExpense}>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-          />
-          <br />
-          <label htmlFor="cost">Cost:</label>
+      </div>
+      <div className="container">
+        <div className="expenses-container">
+          <div className="expenses-title">
+            <h2>Expenses</h2>
+            <div className="search-bar">
+              <input
+                className="Search"
+                type="text"
+                value={searchText}
+                onChange={(e) => {
+                  Search(e.target.value), SetSearchText(e.target.value);
+                }}
+              />
+              <button onClick={() => sortExpenses()}>
+                sort {isAscending ? 'ascending' : 'descending'}
+              </button>
+            </div>
+          </div>
 
-          <input
-            type="number"
-            id="cost"
-            required
-            name="cost"
-            onChange={(e) => setCost(e.target.value)}
-            value={cost}
-          />
+          <div className="expenses">
+            {searchText.length > 0
+              ? searchExpenses.map((expense) => (
+                  <Expense
+                    expense={expense}
+                    onDelete={deleteExpense}
+                    key={expense.id}
+                    onEdit={editExpense}
+                  />
+                ))
+              : expenses.map((expense) => (
+                  <Expense
+                    expense={expense}
+                    onDelete={deleteExpense}
+                    key={expense.id}
+                    onEdit={editExpense}
+                  />
+                ))}
+          </div>
+        </div>
+        <div className="left">
+          <form onSubmit={createExpense}>
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              required
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            />
+            <br />
+            <label htmlFor="cost">Cost:</label>
 
-          <br />
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
+            <input
+              type="number"
+              id="cost"
+              required
+              name="cost"
+              onChange={(e) => setCost(e.target.value)}
+              value={cost}
+            />
+
+            <br />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <br />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
       </div>
     </div>
   );

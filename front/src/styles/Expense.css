@@ -3,26 +3,67 @@
   margin: 20px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 60%;
+  width: 40%;
   margin: auto;
   display: flex;
-  justify-content: flex-start;
+  flex-direction: row;
+  margin-bottom: 1%;
+}
+
+.inputs {
+  margin-left: 5%;
+}
+
+.pound {
+  position: relative;
+  top: 39%;
+}
+.inputs input {
+  margin-top: 5px;
+  border: none;
+  width: 80%;
+}
+
+.expenseButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+  grid-template-rows: repeat(
+    3,
+    33%
+  ); /* Creates 2 rows with a height of 100px each */
 }
 
 .delete-button {
   background-color: #f44336; /* Red */
   color: white;
   border: none;
-  padding: 10px 20px;
+
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  grid-column: 3;
 }
 
 .delete-button:hover {
   background-color: #d32f2f; /* Darker red */
 }
+.updateButton {
+  grid-row: 3;
+  grid-column: 3;
+}
+.resetButton {
+  grid-row: 3;
+  grid-column: 2;
+}
 
-.expenseInput {
-  margin-top: 5px;
+@media only screen and (max-width: 600px) {
+  .expense-container {
+    width: 75%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .expense-container {
+    width: 45%;
+  }
 }

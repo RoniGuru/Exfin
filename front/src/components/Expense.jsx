@@ -10,36 +10,37 @@ function Expense({ expense, onDelete, onEdit }) {
   const formattedDate = new Date(expense.date).toLocaleDateString('en-UK');
   return (
     <div className="expense-container">
-      <div>
+      <div className="inputs">
         <input
           className="expenseInput"
           value={title}
           type="text"
           onChange={(e) => setTitle(e.target.value)}
         />
-        <div>
-          £
+        <div className="costInput">
+          <span>£</span>
           <input
-            className="expenseInput"
+            className="expenseInput "
             value={cost}
             type="number"
             onChange={(e) => setCost(e.target.value)}
           />
-          <input
-            className="expenseInput"
-            value={new Date(date).toISOString().split('T')[0]}
-            type="date"
-            onChange={(e) => setDate(e.target.value)}
-          />
         </div>
+        <input
+          className="expenseInput"
+          value={new Date(date).toISOString().split('T')[0]}
+          type="date"
+          onChange={(e) => setDate(e.target.value)}
+        />
       </div>
 
-      <div>
-        <p className="expense-date">{formattedDate}</p>
+      <div className="expenseButtons">
         <button className="delete-button" onClick={() => onDelete(expense.id)}>
           Delete
         </button>
+
         <button
+          className="updateButton"
           onClick={() =>
             onEdit(expense.id, { title: title, cost: cost, date: date })
           }
@@ -47,6 +48,7 @@ function Expense({ expense, onDelete, onEdit }) {
           Update
         </button>
         <button
+          className="resetButton"
           onClick={() => {
             setCost(expense.cost),
               setTitle(expense.title),

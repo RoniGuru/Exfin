@@ -28,9 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-++j1gyouivgyn!@2m9a^)e2q-%_@&f*dsvf(uz2u@fqn+#2$v1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['ronitgurung.co.uk',
+    'www.ronitgurung.co.uk',]
 
 #needed for jwt tokens to work
 REST_FRAMEWORK = {
@@ -40,6 +41,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+
 }
 
 SIMPLE_JWT = {
@@ -98,10 +100,25 @@ WSGI_APPLICATION = 'back.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),          
+        'PASSWORD': os.getenv("DB_PASS"), 
+        'HOST': os.getenv("DB_HOST"),       
+        'PORT': '3306', 
+         'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'"
+        }
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR /"db.sqlite3",
+#     }
+# }
 
 
 # Password validation

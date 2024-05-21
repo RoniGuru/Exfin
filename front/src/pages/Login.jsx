@@ -7,7 +7,6 @@ function Login() {
   return (
     <div>
       <Form route="/api/token/" method="login" />
-      <button onClick={() => navigate('/register')}>Register</button>
     </div>
   );
 }

@@ -10,9 +10,6 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-
-
-
 class ExpenseListCreate(generics.ListCreateAPIView):
     serializer_class = ExpenseSerializers
     permission_classes = [IsAuthenticated] # have to be autheticated
@@ -30,8 +27,7 @@ class ExpenseListCreate(generics.ListCreateAPIView):
         else:
             print(serializer.errors) 
     
-    
-    
+
 class ExpenseUpdate(generics.UpdateAPIView):
   
     serializer_class = ExpenseSerializers
@@ -45,12 +41,6 @@ class ExpenseUpdate(generics.UpdateAPIView):
        
         instance = serializer.save()
         
-    
-
-
-    
-
-    
 
 class ExpenseDelete(generics.DestroyAPIView):
     
@@ -63,13 +53,15 @@ class ExpenseDelete(generics.DestroyAPIView):
         return Expense.objects.filter(author=user) # filter all Expenses by user
     
     
-
-
-
 class CreateUserView(generics.CreateAPIView):
     # make sure not to create user that already exists by looking at all users
     queryset = User.objects.all()
     # tells view what type of data 
     serializer_class = UserSerializer
     #allow anyone to use this view
+    permission_classes = [AllowAny]
+
+class DeleteUserView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [AllowAny]
